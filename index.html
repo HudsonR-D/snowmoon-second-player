@@ -3,51 +3,76 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SNOWMOON: Second Player — slice</title>
+<title>SNOWMOON: Second Player — full campaign</title>
 <style>
   html,body{margin:0;background:#0b0e14;color:#e8eef7;font-family:system-ui,sans-serif}
   #app{max-width:900px;margin:0 auto;padding:12px}
   canvas{width:100%;height:auto;background:#11161f;border:1px solid #2a3446;border-radius:8px;touch-action:none}
-  .row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
-  button{background:#1d2635;color:#e8eef7;border:1px solid #33415a;border-radius:6px;padding:12px 16px;font-size:16px;min-height:44px;min-width:44px;cursor:pointer}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;align-items:center}
+  .row .lbl{font-size:13px;opacity:.65;flex-basis:100%;letter-spacing:.04em;text-transform:uppercase}
+  button{background:#1d2635;color:#e8eef7;border:1px solid #33415a;border-radius:6px;padding:12px 16px;font-size:16px;min-height:44px;min-width:44px;cursor:pointer;touch-action:manipulation}
   button:hover{background:#28334a}
+  button:active{background:#33415a}
   #dlg{background:#141b28;border:1px solid #33415a;border-radius:8px;padding:12px;margin-top:8px;min-height:120px}
   #hud{font-size:15px}
   #obj{font-size:15px;background:#101827;border:1px solid #2a3446;border-radius:8px;padding:8px 10px;margin:8px 0}
   #transcript{font-size:14px;background:#0f1522;border:1px solid #2a3446;border-radius:8px;padding:8px 10px;margin:8px 0;max-height:150px;overflow-y:auto}
+  /* tablets */
+  @media (max-width:1024px){
+    #app{max-width:720px}
+    button{flex:1 1 30%}
+  }
+  /* phones */
+  @media (max-width:640px){
+    #app{padding:8px}
+    h2{font-size:20px;margin:6px 0}
+    #hud{font-size:16px}
+    #obj{font-size:15px}
+    #dlg{font-size:17px;line-height:1.45}
+    #transcript{font-size:15px;max-height:110px}
+    button{flex:1 1 44%;padding:12px 10px;font-size:15px}
+    canvas{border-radius:6px}
+    .help{font-size:14px}
+  }
 </style>
 </head>
 <body>
 <div id="app">
-  <h2>SNOWMOON: Second Player <small style="opacity:.6">— vertical slice M-Z1 + M-G1</small></h2>
+  <h2>SNOWMOON: Second Player <small style="opacity:.6">— full campaign</small></h2>
   <div id="hud" aria-live="polite"></div>
-  <div id="obj" aria-live="polite">Pick a scene above.</div>
+  <div id="obj" aria-live="polite">Pick a scene below.</div>
   <div class="row">
+    <span class="lbl">Zei tactics</span>
     <button id="btnHub">Hub</button>
-    <button id="btnMZ1">Play M-Z1 Silent-Coop</button>
-    <button id="btnMZ2">Play M-Z2 Factories</button>
-    <button id="btnMZ3">Play M-Z3 Hex vs Bo</button>
-    <button id="btnMZ4">Play M-Z4 XOR Siege</button>
-    <button id="btnMZ5">Play M-Z5 Lure</button>
-    <button id="btnMZ6">Play M-Z6 Escort</button>
-    <button id="btnBuild">Build wall (B, 2 energy)</button>
-    <button id="btnFlip">Flip signal (F, 2 energy)</button>
-    <button id="btnJam">Drop jammer (J)</button>
-    <button id="btnSticker">Paint cover (V)</button>
-    <button id="btnMG1">Play M-G1 Dreadknot</button>
+    <button id="btnMZ1">M-Z1 Silent-Coop</button>
+    <button id="btnMZ2">M-Z2 Factories</button>
+    <button id="btnMZ3">M-Z3 Hex vs Bo</button>
+    <button id="btnMZ4">M-Z4 XOR Siege</button>
+    <button id="btnMZ5">M-Z5 Lure</button>
+    <button id="btnMZ6">M-Z6 Escort</button>
+  </div>
+  <div class="row">
+    <span class="lbl">Veridia acts</span>
+    <button id="btnMG1">M-G1 Dreadknot</button>
     <button id="btnMG2">M-G2 Pitch</button>
     <button id="btnMG3">M-G3 Debates</button>
     <button id="btnMG4">M-G4 Ghost Net</button>
     <button id="btnMG5">M-G5 Houses</button>
     <button id="btnMG6">M-G6 Poll+Coup</button>
-    <button id="btnRewind">Rewind 1 step (U)</button>
+  </div>
+  <div class="row">
+    <span class="lbl">Verbs · history · sound</span>
+    <button id="btnBuild">Build (B)</button>
+    <button id="btnFlip">Flip (F)</button>
+    <button id="btnJam">Jammer (J)</button>
+    <button id="btnSticker">Paint (V)</button>
+    <button id="btnRewind">Rewind (U)</button>
     <button id="btnMute" aria-pressed="false">Mute (sound on)</button>
   </div>
   <canvas id="cv" width="720" height="720" role="img" aria-label="Minpentai tactics board. Z is you, B is ally, gold dot is symbol, gold square is shrine, grey is wall, circle is rock, blue is mirror, red is patrol."></canvas>
   <div id="transcript" aria-live="polite"></div>
   <div id="dlg" aria-live="polite"></div>
-  <p style="opacity:.8;font-size:14px">Move: WASD/arrows or tap an adjacent cell. B: build wall (M-Z2, facing). U: rewind 1 step. R: restart scene.
-  <p style="opacity:.8;font-size:14px">Move: WASD/arrows or tap an adjacent cell. U: rewind 1 step. R: restart scene. Legend: Z=you B=ally ●=symbol ◆=shrine ■=rock ▭=mirror R=patrol. GPLv3 — see pipeline/SOURCES.md</p>
+  <p class="help" style="opacity:.8;font-size:14px">Move: WASD/arrows, Q/E/A/D/Z/C on hex, or tap/swipe. B build · F flip · J jammer · V paint · U rewind · R restart. Legend: Z=you B=ally D=Deluin ●=symbol ◆=shrine ■=rock ▭=mirror R=patrol. GPLv3 — see pipeline/SOURCES.md</p>
 </div>
 <script type="module" src="/src/main.ts"></script>
 </div>

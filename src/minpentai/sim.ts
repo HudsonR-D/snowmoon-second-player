@@ -69,6 +69,13 @@ export class Sim {
       c.piece = 'spaceship'; c.hp = hp; c.dirX = 0; c.dirY = 0;
     }
   }
+  /** Full-state snapshot for search/save: restore() returns to it exactly. */
+  snapshot(): TurnDelta {
+    const d = this.newDelta();
+    d.moved = false;
+    return d;
+  }
+  restore(snap: TurnDelta) { this.applyInverse(snap); }
   /** M-Z5: hunter pack without zones (uses waypoint loops + lethal contact). */
   enablePack(hunters: { x: number; y: number; wp: [number, number][]; dormant?: boolean }[], hp = 1) {
     const s = this.st;
@@ -123,17 +130,20 @@ export class Sim {
     void this.rng.nextGame();
     return d;
   }
-  /** S verb (M-Z6). Paints current cell: DOGs can't see you on it. */
-  paintSticker(): TurnDelta {
+  /** S verb (M-Z6). Paints the FACING cell (proactive cover): whoever stands
+   *  on paint is hidden. Paint the lane ahead, walk Deluin over it later. */
+  paintSticker(dx: number, dy: number): TurnDelta {
     const s = this.st;
     const d = this.newDelta();
     if (!this.hasEscort() || s.stickers <= 0) return d;
-    const c = s.board.get(s.px, s.py);
-    if (c.stickerT === 1) return d;
+    const nx = s.px + dx, ny = s.py + dy;
+    if (!s.board.in(nx, ny)) return d;
+    const c = s.board.get(nx, ny);
+    if (c.piece !== 'none' || c.symbol || c.stickerT === 1) return d;
     c.stickerT = 1;
     s.stickers--;
     d.moved = true;
-    this.note(`you paint sticker (${s.stickers} left)`);
+    this.note(`you paint (${nx},${ny}) (${s.stickers} left)`);
     s.turn++;
     this.tick();
     void this.rng.nextGame();
@@ -169,7 +179,7 @@ export class Sim {
     s.turn++;
     if (this.hasEscort() && who === 'p') {
       s.trail.push([s.px, s.py]);
-      if (s.trail.length > 200) s.trail.shift();
+      if (s.trail.length > 5000) s.trail.shift(); // far beyond any limit; shift breaks snapshot undo, so keep it unreachable
       this.stepDeluin();
     }
     this.tick();
@@ -211,8 +221,10 @@ export class Sim {
   }
   private sees(fx: number, fy: number, tx: number, ty: number): boolean {
     const s = this.st;
+    // Vision radius 3: at 4, an open east (M-Z6 exit run) can never hide —
+    // every step stays in view and no sticker budget survives it.
     const dist = Math.max(Math.abs(fx - tx), Math.abs(fy - ty));
-    if (dist > 4 || dist === 0) return dist === 0;
+    if (dist > 3 || dist === 0) return dist === 0;
     if (dist <= 1) return true;
     // Bresenham LOS, blocked by solid pieces.
     let x0 = fx, y0 = fy;
@@ -230,13 +242,23 @@ export class Sim {
     }
     return true;
   }
+  private nearPaint(x: number, y: number): boolean {
+    const s = this.st;
+    for (let yy = y - 1; yy <= y + 1; yy++) for (let xx = x - 1; xx <= x + 1; xx++) {
+      if (s.board.in(xx, yy) && s.board.get(xx, yy).stickerT === 1) return true;
+    }
+    return false;
+  }
   private checkSpots() {
     const s = this.st;
     if (s.won || s.lost) return;
     for (const h of s.hunters) {
       if (h.dead) continue;
-      const pHidden = s.board.get(s.px, s.py).stickerT === 1;
-      if ((!pHidden && this.sees(h.x, h.y, s.px, s.py)) || this.sees(h.x, h.y, s.dx, s.dy)) {
+      // Cover is shared and local: paint hides whoever stands on/near it.
+      // Paint the lane ahead, walk Deluin over it two turns later.
+      const pHidden = this.nearPaint(s.px, s.py);
+      const dHidden = s.dx >= 0 && this.nearPaint(s.dx, s.dy);
+      if ((!pHidden && this.sees(h.x, h.y, s.px, s.py)) || (!dHidden && this.sees(h.x, h.y, s.dx, s.dy))) {
         s.spots++;
         this.note(`noticed! (${s.spots}/${s.spotLimit})`);
         if (s.spots >= s.spotLimit) s.lost = 'spotted';

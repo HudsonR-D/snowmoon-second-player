@@ -32,6 +32,15 @@
 - [x] Rebuild + validate: 30 modules, all node links + map bounds pass
 
 ## Next session — full-campaign pass: difficulty curve, cross-flag payoffs (MOV_HIDDEN/G3_DEFER in Zei text), audio, Pages deploy
+- [x] (shipped, see S3 summary above + hub board)
+
+## S4 pass (this session) — bots, fairness, mobile
+- [x] `npm test`: snapshot-DFS solver (1-ply lookahead, fetch-form heuristics, iterative deepening, Z5 staging) proves all 9 map missions winnable within limits; determinism; 600-op rewind fuzz ×2; dialogue link/reachability/cond checks; G6 pulse math
+- [x] Bugs the bots caught: heuristic pickup cliff (greedy refused grabs), dirty sim on winning search paths (new Sim.snapshot/restore), M-Z6 unwinnable (single-cell stickers + r=4 open east) → proactive facing paint, area cover (3x3), vision r=3, DOG1 loop east, limit 7
+- [x] Cross-flag echoes in M-Z3 (glass/clean) + M-Z6 (backdoor hum/whispers)
+- [x] Responsive: grouped buttons, phone/tablet breakpoints, forgiving tap-to-move, manipulation touch-action
+
+## Next session — audio polish (mute persistence), Pages deploy check, new-story content (Freetown corps?)
 - [x] Ghost ally pass-through (fixes N-seal softlock class in G4/G6/Z6)
 - [x] Hub campaign board: suggested order + ★ pips + per-mission stamps
 - [x] Cross-flags: G3_DEFER→M-Z4 +2 energy + Verdow line; MOV burn→M-Z5 Fin line; MOV burn→M-G4 Trace 20

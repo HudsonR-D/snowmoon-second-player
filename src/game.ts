@@ -134,7 +134,13 @@ export class Game {
     this.hsim = new HexSim(b, j.player[0], j.player[1], j.bo[0], j.bo[1], j.seed, j.holdNeed, j.turnLimit);
     setHud(`M-Z3 Bo Qualifier — hex grid. Keys Q/E/A/D/Z/C or tap adjacent hex. Hold middle 8 turns with ●. 3 rewind charges.`);
     setObj(`M-Z3 objective: 1) take ● 2) hold middle ${j.holdNeed} turns 3) dodge Bo (rock stuns). U or transcript entry = 1 charge. ${OBJ}`);
-    showDlg(`<b>Bo:</b> I ran you 10k times. <b>Zei:</b> Run this one.`);
+    const defer3 = this.flags.get('G3_DEFER');
+    const glass = defer3 === true
+      ? `<br/><b>Mu:</b> Veridia glass is up — Bo's lanes run thinner.`
+      : defer3 === false
+        ? `<br/><b>Mu:</b> No overwatch — the vote was forced. Bo hunts clean.`
+        : '';
+    showDlg(`<b>Bo:</b> I ran you 10k times. <b>Zei:</b> Run this one.${glass}`);
     this.renderHexTranscript();
     this.render();
   }
@@ -179,9 +185,13 @@ export class Game {
     this.sim = this.buildBoard(mz6 as unknown as Parameters<Game['buildBoard']>[0]);
     this.sim.enablePack(j.hunters, 3);
     this.sim.enableEscort(j.deluin[0], j.deluin[1], j.stickers, j.spotLimit, j.exit[0], j.exit[1]);
-    setHud(`M-Z6 DOG Escort — walk Deluin (D) to the gold exit in ${j.turnLimit}t. Seen ${j.spotLimit}x = blown. S paints cover (invisible on it). B is a ghost — DOGs can't see him. 3 charges.`);
-    setObj(`M-Z6 objective: reach ◆ exit with D close. S = sticker, U/transcript = 1 charge. ${OBJ}`);
-    showDlg(`<b>Deluin:</b> Write where only friends look. I'll trail two steps behind — don't sprint blind.`);
+    setHud(`M-Z6 DOG Escort — walk Deluin (D) to the gold exit in ${j.turnLimit}t. Seen ${j.spotLimit}x = blown. V paints ahead (cover hides the 8 around it — lane Deluin too). B is a ghost — DOGs can't see him. 3 charges.`);
+    setObj(`M-Z6 objective: reach ◆ exit with D close. V = sticker (area cover), U/transcript = 1 charge. ${OBJ}`);
+    const mov6 = this.flags.get('MOV_HIDDEN');
+    const wire = mov6 === false
+      ? `<br/><b>Fin:</b> Backdoor's burned — we're on courtyard whispers and paint.`
+      : `<br/><b>Fin:</b> Mov's backdoor hums under the static. Paint loud.`;
+    showDlg(`<b>Deluin:</b> Write where only friends look. I'll trail two steps behind — don't sprint blind.${wire}`);
     this.renderTourTranscript('M-Z6');
     this.render();
   }
@@ -246,13 +256,17 @@ export class Game {
     if ((this.scene === 'mg1' || this.scene === 'mg4' || this.scene === 'mg6') && !this.mapLive) return;
     if (this.scene === 'mg2' || this.scene === 'mg3' || this.scene === 'mg5') return;
     if (this.scene === 'mz3') return this.hexTap(e);
+    // Forgiving touch: step toward the tap along the dominant axis, however
+    // far it is. Precise adjacent taps still work exactly as before.
     const r = this.ctx.canvas.getBoundingClientRect();
-    const gx = Math.floor(((e.clientX - r.left) / r.width) * this.sim.st.board.w);
-    const gy = Math.floor(((e.clientY - r.top) / r.height) * this.sim.st.board.h);
-    const dx = Math.sign(gx - this.sim.st.px), dy = Math.sign(gy - this.sim.st.py);
-    if (Math.abs(gx - this.sim.st.px) + Math.abs(gy - this.sim.st.py) === 1) this.step(dx, dy);
+    const gx = ((e.clientX - r.left) / r.width) * this.sim.st.board.w - (this.sim.st.px + 0.5);
+    const gy = ((e.clientY - r.top) / r.height) * this.sim.st.board.h - (this.sim.st.py + 0.5);
+    if (Math.abs(gx) < 0.2 && Math.abs(gy) < 0.2) return;
+    const d = Math.abs(gx) > Math.abs(gy) ? [Math.sign(gx), 0] : [0, Math.sign(gy)];
+    this.step(d[0], d[1]);
   }
   step(dx: number, dy: number) {
+    if ((this.scene === 'mz2') && (this.sim.st.won || this.sim.st.foe >= (mz2 as { foeLimit: number }).foeLimit)) return;
     if ((this.scene === 'mz4') && (this.sim.st.won || this.sim.st.turn >= (mz4 as { turnLimit: number }).turnLimit)) return;
     if ((this.scene === 'mz5' || this.scene === 'mz6') && (this.sim.st.won || this.sim.st.lost)) return;
     if (this.scene === 'mz5' && this.sim.st.turn >= (mz5 as { turnLimit: number }).turnLimit) return;
@@ -515,8 +529,8 @@ export class Game {
   sticker() {
     if (this.scene !== 'mz6' || this.sim.st.won || this.sim.st.lost) return;
     const before = this.sim.st.turn;
-    const d = this.sim.paintSticker();
-    if (!d.moved || this.sim.st.turn === before) { setHud(`Can't paint here (${this.sim.st.stickers} left). Stand on a free cell.`); return; }
+    const d = this.sim.paintSticker(this.lastDir.dx, this.lastDir.dy);
+    if (!d.moved || this.sim.st.turn === before) { setHud(`Can't paint there (${this.sim.st.stickers} left). Face a free cell.`); return; }
     this.hist.push(d);
     sBuild();
     this.mz6AfterMove();

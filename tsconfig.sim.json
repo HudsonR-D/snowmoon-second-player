@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "outDir": ".testbuild",
+    "rootDir": "src",
+    "resolveJsonModule": true,
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": ["src/minpentai/**/*.ts", "src/narrative/dialogue.ts", "src/narrative/deduction.ts"]
+}

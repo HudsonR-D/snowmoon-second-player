@@ -6,6 +6,14 @@ export function drawBoard(ctx: CanvasRenderingContext2D, b: Board, px: number, p
   ctx.fillStyle = theme === 'market' ? '#131a26' : '#10141d';
   ctx.fillRect(0, 0, W, H);
   const cw = W / b.w, ch = H / b.h;
+  // cover halo: cells within 1 of a sticker are hidden ground
+  const covered = new Set<string>();
+  for (let y = 0; y < b.h; y++) for (let x = 0; x < b.w; x++) {
+    if (b.get(x, y).stickerT !== 1) continue;
+    for (let yy = y - 1; yy <= y + 1; yy++) for (let xx = x - 1; xx <= x + 1; xx++) {
+      if (xx >= 0 && yy >= 0 && xx < b.w && yy < b.h) covered.add(xx + ',' + yy);
+    }
+  }
   for (let y = 0; y < b.h; y++) for (let x = 0; x < b.w; x++) {
     const c = b.get(x, y);
     const X = x * cw, Y = y * ch;
@@ -18,6 +26,7 @@ export function drawBoard(ctx: CanvasRenderingContext2D, b: Board, px: number, p
     if (c.piece === 'spaceship') { ctx.fillStyle = c.hp > 1 ? '#fc8181' : '#f6ad55'; ctx.fillRect(X + 8, Y + 8, cw - 16, ch - 16); }
     if (c.symbol) { ctx.fillStyle = '#ecc94b'; ctx.beginPath(); ctx.arc(X + cw / 2, Y + ch / 2, 6, 0, 7); ctx.fill(); ctx.fillStyle = '#0b0e14'; ctx.fillText('s', X + cw / 2 - 3, Y + ch / 2 + 4); }
     if (c.stickerT === 1) { ctx.strokeStyle = '#ecc94b'; ctx.setLineDash([4, 3]); ctx.strokeRect(X + 3, Y + 3, cw - 6, ch - 6); ctx.setLineDash([]); }
+    else if (covered.has(x + ',' + y)) { ctx.fillStyle = 'rgba(236,201,75,0.13)'; ctx.fillRect(X, Y, cw, ch); }
     if (c.stickerT === 2) { ctx.strokeStyle = '#63b3ed'; ctx.setLineDash([4, 3]); ctx.strokeRect(X + 3, Y + 3, cw - 6, ch - 6); ctx.setLineDash([]); }
   }
   // Valid-move highlight: outline orthogonal free cells around player.

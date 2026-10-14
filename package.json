@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "test": "tsc -p tsconfig.sim.json && node tests/run.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {

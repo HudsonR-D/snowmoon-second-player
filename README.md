@@ -23,3 +23,4 @@ This repo does that from day 1: see `pipeline/` plan in `storyboards/tech-arch.m
 - S1: fetched 32 chapters, 4 subagents, story bible + game direction locked (Hybrid + we pick stack).
 - S2: storyboards locked. Built M-Z1 + M-G1 greybox.
 - S3: blind review fixes, M-Z2..M-Z6 tactics, full Veridia acts, campaign pass (ghost ally, cross-flags, synth audio), Pages deploy.
+- S4: bot playtesting (`npm test`: solver proves all 12 winnable within limits + fuzz + dialogue checks), proactive area stickers, r=3 vision, responsive mobile layout.
