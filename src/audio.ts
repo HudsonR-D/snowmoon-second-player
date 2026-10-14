@@ -1,7 +1,17 @@
+const MUTE_KEY = 'snowmoon-second-player-muted-v1';
 let muted = false;
+try {
+  muted = localStorage.getItem(MUTE_KEY) === '1';
+} catch { /* private mode: default to sound on */ }
 let ac: AudioContext | null = null;
 export function isMuted() { return muted; }
-export function toggleMute() { muted = !muted; return muted; }
+export function toggleMute() {
+  muted = !muted;
+  try {
+    localStorage.setItem(MUTE_KEY, muted ? '1' : '0');
+  } catch { /* private mode: session-only */ }
+  return muted;
+}
 function ctx(): AudioContext | null {
   if (muted) return null;
   try {

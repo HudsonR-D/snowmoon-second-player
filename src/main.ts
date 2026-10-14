@@ -1,5 +1,5 @@
 import { Game } from './game.js';
-import { toggleMute } from './audio.js';
+import { toggleMute, isMuted } from './audio.js';
 
 const cv = document.getElementById('cv') as HTMLCanvasElement;
 const ctx = cv.getContext('2d')!;
@@ -24,8 +24,13 @@ document.getElementById('btnMG5')!.onclick = () => g.playMG5();
 document.getElementById('btnMG6')!.onclick = () => g.playMG6();
 document.getElementById('btnRewind')!.onclick = () => g.rewind();
 const muteBtn = document.getElementById('btnMute')!;
-muteBtn.addEventListener('click', () => {
-  const m = toggleMute();
+const syncMute = () => {
+  const m = isMuted();
   muteBtn.textContent = m ? 'Unmute (sound off)' : 'Mute (sound on)';
   muteBtn.setAttribute('aria-pressed', String(m));
+};
+syncMute();
+muteBtn.addEventListener('click', () => {
+  toggleMute();
+  syncMute();
 });
