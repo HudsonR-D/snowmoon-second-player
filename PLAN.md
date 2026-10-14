@@ -41,6 +41,9 @@
 - [x] Responsive: grouped buttons, phone/tablet breakpoints, forgiving tap-to-move, manipulation touch-action
 
 ## Next session — audio polish (mute persistence), Pages deploy check, new-story content (Freetown corps?)
+
+## S5 micro-pass — soften H1 (gently)
+- H1 loop x3-7 → x3-5 (`[(3,3),(5,3),(5,4),(3,4)]`): same lethality/hp, same rock-lane matchup, faster cycle (more kill windows), east half safe ground. Bot: 60/60 within limit, ALL CHECKS PASS. Shipped to Pages.
 - [x] Ghost ally pass-through (fixes N-seal softlock class in G4/G6/Z6)
 - [x] Hub campaign board: suggested order + ★ pips + per-mission stamps
 - [x] Cross-flags: G3_DEFER→M-Z4 +2 energy + Verdow line; MOV burn→M-Z5 Fin line; MOV burn→M-G4 Trace 20
