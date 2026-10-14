@@ -32,6 +32,11 @@
 - [x] Rebuild + validate: 30 modules, all node links + map bounds pass
 
 ## Next session — full-campaign pass: difficulty curve, cross-flag payoffs (MOV_HIDDEN/G3_DEFER in Zei text), audio, Pages deploy
+- [x] Ghost ally pass-through (fixes N-seal softlock class in G4/G6/Z6)
+- [x] Hub campaign board: suggested order + ★ pips + per-mission stamps
+- [x] Cross-flags: G3_DEFER→M-Z4 +2 energy + Verdow line; MOV burn→M-Z5 Fin line; MOV burn→M-G4 Trace 20
+- [x] Synth SFX: move/click/build/rewind/win/lose/notice (WebAudio, resume-safe, mute persisted per session)
+- [x] Deploy: HudsonR-D/snowmoon-second-player, gh-pages subtree, Pages building → https://hudsonr-d.github.io/snowmoon-second-player/
 
 ## Next session — M-Z4 shrine-XOR siege vs Gun
 - [x] `xor rule` in square sim (zoneMode: OFF seals shrines, toggles every 6t)
