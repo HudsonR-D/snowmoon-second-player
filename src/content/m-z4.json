@@ -1,0 +1,31 @@
+{
+  "id": "M-Z4",
+  "seed": "M-Z4-311",
+  "w": 11, "h": 11,
+  "walls": [[5,2],[5,3],[5,7],[5,8],[2,5],[3,5],[7,5],[8,5]],
+  "rocks": [[5,4],[5,6]],
+  "mirrors": [],
+  "symbols": [[5,5],[9,5]],
+  "spaceships": [],
+  "zones": [
+    [[2,2],[3,2],[2,3],[3,3]],
+    [[7,2],[8,2],[7,3],[8,3]],
+    [[2,7],[3,7],[2,8],[3,8]],
+    [[7,7],[8,7],[7,8],[8,8]]
+  ],
+  "signalPeriod": 6,
+  "holdNeed": 3,
+  "turnLimit": 48,
+  "charges": 3,
+  "hunters": [
+    { "x": 7, "y": 1, "wp": [[7,1],[8,1],[8,4],[7,4]] },
+    { "x": 1, "y": 6, "wp": [[1,6],[1,9],[4,9],[4,6]] }
+  ],
+  "player": [1,9],
+  "ally": [9,1],
+  "hints": [
+    "Signal seals shrines while OFF (toggles every 6). Grab the ● first — energy charges it.",
+    "F flips the signal for 2 energy. Time entries to ON windows.",
+    "Gun's hunters walk fixed loops — they wait rather than kill, but they plug lanes."
+  ]
+}

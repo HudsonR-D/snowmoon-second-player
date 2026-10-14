@@ -1,0 +1,19 @@
+{
+  "id": "M-Z1",
+  "seed": "M-Z1-042",
+  "w": 7, "h": 7,
+  "walls": [[2,2],[2,3],[2,4],[4,2],[4,4]],
+  "rocks": [[3,3]],
+  "mirrors": [],
+  "symbols": [[5,5]],
+  "spaceships": [],
+  "shrine": [5,1],
+  "player": [1,5],
+  "ally": [1,1],
+  "par": 12,
+  "hints": [
+    "Push the rock out of the corridor, then loop around.",
+    "Grab the symbol first — shrine needs glider+symbol.",
+    "Second Player mirrors you after 3s. Use it: split up."
+  ]
+}

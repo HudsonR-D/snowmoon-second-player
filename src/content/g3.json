@@ -1,0 +1,19 @@
+{
+  "id": "M-G3",
+  "predStart": 50,
+  "nodes": [
+    { "id": "start", "speaker": "Herald", "text": "Two debates. Predict bots score every line. Below 30, the floor heckles you out.", "choices": [{ "label": "Open: cultural values", "next": "cult" }] },
+    { "id": "cult", "speaker": "Gladias", "text": "Dreadknot Tier 3, Northglade films, blandness tax. Where's the line?", "choices": [
+      { "label": "Argue texture over blandness (+15, needs nerve)", "set": { "PRED": 65 }, "next": "mil" },
+      { "label": "Plead for patience (+5, safe)", "set": { "PRED": 55 }, "next": "mil" }
+    ]},
+    { "id": "mil", "speaker": "Eighteen", "text": "Military openness. Arctic drones buzz Redshire. Vote now or defer?", "choices": [
+      { "label": "DEFER the vote (keeps Zei's overwatch, costs youth)", "set": { "G3_DEFER": true, "PRED": 62 }, "next": "heckle" },
+      { "label": "FORCE the vote (youth cheers, Zei gets jammed)", "set": { "G3_DEFER": false, "PRED": 48 }, "next": "heckle" }
+    ]},
+    { "id": "heckle", "speaker": "Predict", "text": "Bots tally. The room smells blood or boredom.", "choices": [
+      { "label": "Close with the 2-month sabotage bet (needs PRED>=55)", "cond": "PRED>=55", "set": { "G3_BET": true, "MG3_DONE": true }, "next": "END" },
+      { "label": "Close quietly and sit down", "set": { "MG3_DONE": true }, "next": "END" }
+    ]}
+  ]
+}

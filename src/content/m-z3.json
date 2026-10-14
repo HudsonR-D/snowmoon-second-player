@@ -1,0 +1,19 @@
+{
+  "id": "M-Z3",
+  "seed": "M-Z3-203",
+  "radius": 4,
+  "walls": [[3,0],[2,1],[0,3],[-3,1],[-2,-1],[0,-3],[3,-2],[-3,3]],
+  "rocks": [[1,0],[-1,1]],
+  "symbols": [[3,-1],[-3,2]],
+  "shrine": [0,0],
+  "player": [-4,2],
+  "bo": [4,-3],
+  "holdNeed": 8,
+  "turnLimit": 40,
+  "charges": 3,
+  "hints": [
+    "Turn 1: step east onto the ● at (-3,2), then run for the middle.",
+    "Hold the 7 middle hexes 8 turns with ●. Bo arrives ~turn 12 — keep sliding.",
+    "Push a rock into Bo to stun him 2 turns. U spends 1 of 3 charges."
+  ]
+}

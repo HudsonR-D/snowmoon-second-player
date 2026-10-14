@@ -1,0 +1,27 @@
+{
+  "id": "M-Z6",
+  "seed": "M-Z6-630",
+  "w": 13, "h": 11,
+  "walls": [[4,1],[4,2],[4,3],[4,4],[4,6],[4,7],[4,8],[4,9],[8,1],[8,2],[8,4],[8,5],[8,6],[8,8],[8,9]],
+  "rocks": [],
+  "mirrors": [],
+  "symbols": [],
+  "spaceships": [],
+  "hunters": [
+    { "x": 5, "y": 2, "wp": [[5,2],[7,2],[7,4],[5,4]] },
+    { "x": 5, "y": 6, "wp": [[5,6],[7,6],[7,8],[5,8]] }
+  ],
+  "deluin": [1,6],
+  "stickers": 3,
+  "spotLimit": 3,
+  "exit": [11,5],
+  "turnLimit": 60,
+  "charges": 3,
+  "player": [1,5],
+  "ally": [1,4],
+  "hints": [
+    "DOGs see 4 squares. Walls and rocks break sight. Your ghost-ally B is invisible to them.",
+    "Deluin trails 2 turns behind your exact path — he never gets stuck if you don't.",
+    "S paints your cell: invisible while you stand on it. Spend stickers at the x=8 gaps."
+  ]
+}

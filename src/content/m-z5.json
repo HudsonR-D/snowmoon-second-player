@@ -1,0 +1,26 @@
+{
+  "id": "M-Z5",
+  "seed": "M-Z5-522",
+  "w": 11, "h": 11,
+  "walls": [[5,0],[5,1],[5,9],[5,10],[0,4],[0,6],[10,4],[10,6]],
+  "rocks": [[4,5],[6,5],[5,8]],
+  "mirrors": [],
+  "symbols": [],
+  "spaceships": [],
+  "hunters": [
+    { "x": 3, "y": 3, "wp": [[3,3],[7,3],[7,4],[3,4]] },
+    { "x": 3, "y": 6, "wp": [[3,6],[7,6],[7,7],[3,7]] },
+    { "x": 2, "y": 1, "wp": [[2,1],[8,1],[8,2],[2,2]] }
+  ],
+  "lethal": true,
+  "jammers": 2,
+  "turnLimit": 60,
+  "charges": 3,
+  "player": [1,5],
+  "ally": [9,5],
+  "hints": [
+    "Drones walk fixed loops and kill on contact. Rocks kill them first — one crush each.",
+    "J drops a jammer: drones within 3 freeze 6 turns. Freeze, then line up the rock.",
+    "Two jammers, three drones. The third kill is unfrozen — time it."
+  ]
+}

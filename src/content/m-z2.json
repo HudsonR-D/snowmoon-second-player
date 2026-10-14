@@ -1,0 +1,21 @@
+{
+  "id": "M-Z2",
+  "seed": "M-Z2-117",
+  "w": 11, "h": 11,
+  "walls": [[3,3],[3,4],[3,6],[3,7],[7,3],[7,4],[7,6],[7,7],[5,2],[5,8]],
+  "rocks": [[5,4],[5,6]],
+  "mirrors": [],
+  "symbols": [[1,5],[9,5]],
+  "spaceships": [{ "x": 5, "y": 0, "hp": 1, "dx": 0, "dy": 1 }],
+  "factories": [[1,1],[9,9]],
+  "shrine": [5,5],
+  "player": [1,9],
+  "ally": [1,1],
+  "par": 40,
+  "foeLimit": 10,
+  "hints": [
+    "Grab a symbol fast — your factory only charges while you hold one.",
+    "Gun pulses every 3 turns. You must shrine-out before foe hits 10.",
+    "Spend 2 energy with B / Build button to wall the patrol lane."
+  ]
+}

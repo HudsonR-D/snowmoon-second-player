@@ -1,0 +1,33 @@
+{
+  "id": "M-G5",
+  "nodes": [
+    { "id": "start", "speaker": "Seila", "text": "Gladias is detained. The board is mine now. Three houses, three pairs. I don't win by authority — I win by weight.", "choices": [{ "label": "Telroy, counting house", "next": "telroy" }] },
+    { "id": "telroy", "speaker": "Telroy", "text": "Money. Ledgers show Lektor funds routed via Jump accounts. Which pair proves the bagman?", "choices": [
+      { "label": "Ledger + Jump memo (correct)", "set": { "H1": true }, "next": "balme" },
+      { "label": "Ledger + rumor (weak)", "next": "telroy2" }
+    ]},
+    { "id": "telroy2", "speaker": "Seila", "text": "Rumors weigh nothing. Read the summaries again.", "choices": [{ "label": "Ledger + Jump memo (correct)", "set": { "H1": true }, "next": "balme" }] },
+    { "id": "balme", "speaker": "Balme", "text": "Blood. The duel roster, the Sergeants' oath. Who ordered the Northshore stand-down?", "choices": [
+      { "label": "Roster + oath (correct)", "set": { "H2": true }, "next": "lectoby" },
+      { "label": "Roster + gossip (weak)", "next": "balme2" }
+    ]},
+    { "id": "balme2", "speaker": "Seila", "text": "Gossip is air. Pairs, not vibes.", "choices": [{ "label": "Roster + oath (correct)", "set": { "H2": true }, "next": "lectoby" }] },
+    { "id": "lectoby", "speaker": "Lectoby", "text": "Law. The statute, the sealed minute. What makes the firing legal?", "choices": [
+      { "label": "Statute + minute (correct)", "set": { "H3": true }, "next": "lily" },
+      { "label": "Statute + hope (weak)", "next": "lectoby2" }
+    ]},
+    { "id": "lectoby2", "speaker": "Seila", "text": "Hope isn't evidence. One more look.", "choices": [{ "label": "Statute + minute (correct)", "set": { "H3": true }, "next": "lily" }] },
+    { "id": "lily", "speaker": "Lily", "text": "Mom. I carried the messages. Weight mine high and finish it fast — or protect me and find the last link yourself?", "choices": [
+      { "label": "Weight Lily high (she radicalizes toward the leak)", "set": { "LILY_HIGH": true, "MG5_DONE": true }, "next": "END" },
+      { "label": "Protect Lily, close with Balme's duel evidence", "set": { "LILY_HIGH": false, "MG5_DONE": true }, "next": "END" }
+    ]}
+  ],
+  "clues": [
+    { "id": "ledger", "title": "Ledger", "summary": "Lektor funds via Jump accounts" },
+    { "id": "memo", "title": "Jump memo", "summary": "Bagman initialed the routing" },
+    { "id": "roster", "title": "Duel roster", "summary": "Sergeants reassigned night of stand-down" },
+    { "id": "oath", "title": "Oath", "summary": "Counter-order sworn off-books" },
+    { "id": "statute", "title": "Statute", "summary": "14th Ground Law: military must defend" },
+    { "id": "minute", "title": "Sealed minute", "summary": "Parliament blocked as head — Courts may fire" }
+  ]
+}

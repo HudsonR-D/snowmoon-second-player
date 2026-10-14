@@ -1,0 +1,19 @@
+{
+  "id": "M-G2",
+  "nodes": [
+    { "id": "start", "speaker": "Gladias", "text": "GPH atrium. Three Keepers, three objections. One pitch: let me track Delwart's network.", "choices": [{ "label": "Face Verdow first", "next": "verdow" }] },
+    { "id": "verdow", "speaker": "Verdow", "text": "Pragmatist. 'Delwart wants every rubric deleted. What do YOU want?'", "choices": [
+      { "label": "Military openness now (Ancus likes, Papli doubts)", "set": { "G2_OPEN": true, "PRED": 55 }, "next": "papli" },
+      { "label": "Cultural audits only (safe, thin)", "set": { "G2_CULT": true, "PRED": 45 }, "next": "papli" }
+    ]},
+    { "id": "papli", "speaker": "Papli", "text": "Privacy hawk. 'Mov runs Silverchat cover for you. Burn him or keep him?'", "choices": [
+      { "label": "Keep Mov covered (helps Zei later)", "set": { "MOV_HIDDEN": true, "PRED": 60 }, "next": "ancus" },
+      { "label": "Expose Mov for credibility", "set": { "MOV_HIDDEN": false, "PRED": 40 }, "next": "ancus" }
+    ]},
+    { "id": "ancus", "speaker": "Ancus", "text": "Security mind. 'Vote 10-10 splits. Chairman breaks ties. Why should I spend my yes?'", "choices": [
+      { "label": "Promise the tracker list (evidence over trust)", "set": { "G2_LIST": true }, "next": "vote" },
+      { "label": "Appeal to duty (cheap, forgettable)", "set": { "PRED": 35 }, "next": "vote" }
+    ]},
+    { "id": "vote", "speaker": "Chairman", "text": "Ten to ten, exactly. By Acceptance voting I decide... welcome, Keeper.", "choices": [{ "label": "Take the robe", "set": { "MG2_DONE": true }, "next": "END" }] }
+  ]
+}
